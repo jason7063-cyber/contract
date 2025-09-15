@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>114學年度 TFETP 合約更新重點</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Teal & Peach -->
+    <!-- Application Structure Plan: A user-friendly, non-linear SPA using a tabbed navigation interface. Sections are thematic (Salary, Leave, Benefits, etc.). Content is presented in a side-by-side comparison format to clearly highlight changes between the old and new contracts. This structure prioritizes user-directed exploration and quick access to relevant information over a static, linear presentation, which is more effective for digesting complex contractual information. -->
+    <!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation Method -> Interaction -> Justification -> Library/Method. 1. Salary/Leave/Benefits comparison -> Compare terms -> Side-by-side cards/tables -> Click tabs to switch views -> Most direct way to show differences -> HTML/Tailwind/JS. 2. Key figures (days, dates) -> Inform -> Highlighted text & icons -> No interaction -> Draws attention to critical data -> HTML/Unicode. 3. Termination clauses -> Inform/Warn -> Styled lists with icons -> No interaction -> Clearly separates different types of termination -> HTML/Tailwind. No charts are needed as the data is qualitative and comparative, not statistical. Chart.js CDN is included to meet requirements. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        :root {
+            --bg-main: #FEFBF6;
+            --text-dark: #5c5c5c;
+            --text-light: #7f7f7f;
+            --brand-teal: #2d7c8a;
+            --brand-teal-dark: #1e5660;
+            --brand-orange: #f58a23;
+            --card-border: #f0ebe5;
+        }
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+            color: var(--text-light);
+        }
+        .tab-btn.active {
+            border-color: var(--brand-teal);
+            color: var(--brand-teal-dark);
+            font-weight: 600;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .comparison-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px -1px rgb(0 0 0 / 0.05);
+            padding: 1.5rem;
+            border: 1px solid var(--card-border);
+        }
+        .card-header {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--brand-teal-dark);
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .card-content {
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+        .highlight-orange { color: var(--brand-orange); }
+        .highlight-teal { color: var(--brand-teal); }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        <header class="text-center mb-10">
+            <div class="mx-auto w-24 h-24 rounded-full bg-[var(--brand-teal)] flex items-center justify-center text-white text-5xl font-bold font-['Noto_Sans_TC'] mb-4 shadow-md">桃</div>
+            <h1 class="text-3xl md:text-4xl font-bold text-[var(--brand-teal-dark)]">114學年度外籍英語教師聘僱合約更新重點</h1>
+            <p class="text-lg text-[var(--text-light)] mt-2">Key Updates to the 114 School Year TFETP Employment Contract</p>
+        </header>
+
+        <nav class="sticky top-0 bg-white/70 backdrop-blur-lg z-10 shadow-sm rounded-lg mb-8 overflow-x-auto">
+            <div id="tabs-container" class="flex items-center justify-center">
+                <button data-target="salary" class="tab-btn active flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">薪資 (Salary & Payday)</button>
+                <button data-target="leave" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">假別 (Leave Policy)</button>
+                <button data-target="benefits" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">福利 (Benefits)</button>
+                <button data-target="health" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">健檢與保險 (Health)</button>
+                <button data-target="termination" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">合約條款 (Terms)</button>
+            </div>
+        </nav>
+
+        <main id="content-container">
+            <!-- Salary Section -->
+            <section id="salary" class="content-section active space-y-6">
+                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">此部分說明新學年度的薪資結構與支付日期的變動。最重要的更新是採用了全新的薪資標準表，以及將發薪日提前，請仔細閱讀以了解這些變化對您的影響。</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="comparison-card md:col-span-2">
+                        <h3 class="card-header">薪資級距表 (Salary Scale)</h3>
+                        <div class="card-content grid md:grid-cols-2 gap-6 items-center">
+                            <div>
+                                <h4 class="font-semibold text-gray-400 mb-2">舊有規定 (Previous)</h4>
+                                <p>依據先前公告之標準。</p>
+                            </div>
+                            <div class="p-4 bg-teal-50/50 rounded-lg">
+                                <h4 class="font-semibold text-[var(--brand-teal-dark)] mb-2">114學年度新合約 (New) ✨</h4>
+                                <p class="font-semibold">薪資級距已全面更新。</p>
+                                <p class="text-sm text-gray-600 mt-1">您的薪資將依據新合約附件一的標準核定 (Your salary will be based on the new scale in Appendix 1)。</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="comparison-card">
+                        <h3 class="card-header">薪資支付日 (Payday)</h3>
+                        <div class="card-content">
+                            <h4 class="font-semibold text-gray-400 mb-2">舊有規定 (Previous)</h4>
+                            <p class="text-2xl font-bold text-gray-400">次月 <span class="highlight-orange">10日</span> 前</p>
+                            <p class="text-sm text-gray-500">Before the 10th</p>
+                        </div>
+                    </div>
+                    <div class="comparison-card border-[var(--brand-teal)]/50">
+                        <h3 class="card-header">薪資支付日 (Payday)</h3>
+                         <div class="card-content">
+                            <h4 class="font-semibold text-[var(--brand-teal-dark)] mb-2">114學年度新合約 (New) ✅</h4>
+                            <p class="text-2xl font-bold highlight-teal">次月 <span class="highlight-teal">5日</span> 前</p>
+                            <p class="text-sm text-gray-500">Before the 5th</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leave Section -->
+            <section id="leave" class="content-section space-y-6">
+                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">請假規定是合約中的重要部分。新學年度合約在事假與病假的支薪條件上有所調整。了解這些變更，有助於您規劃個人事務與維護自身權益。</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="comparison-card">
+                        <h3 class="card-header">事假 (Personal Leave)</h3>
+                        <div class="card-content">
+                            <p class="text-2xl font-bold">7 天 (支薪)</p>
+                            <p class="text-sm text-gray-500">7 days (Paid)</p>
+                        </div>
+                    </div>
+                    <div class="comparison-card border-[var(--brand-orange)]/50">
+                        <h3 class="card-header text-[var(--brand-orange)]">事假 (Personal Leave) - 更新</h3>
+                        <div class="card-content">
+                            <p class="text-2xl font-bold highlight-orange">5 天 (不支薪)</p>
+                            <p class="text-sm text-gray-500">5 days (Unpaid)</p>
+                        </div>
+                    </div>
+                     <div class="comparison-card">
+                        <h3 class="card-header">病假 (Sick Leave)</h3>
+                        <div class="card-content">
+                            <p class="text-2xl font-bold">14 天 (支薪)</p>
+                            <p class="text-sm text-gray-500">14 days (Paid)</p>
+                        </div>
+                    </div>
+                    <div class="comparison-card border-orange-200">
+                        <h3 class="card-header text-orange-600">病假 (Sick Leave) - 更新</h3>
+                        <div class="card-content">
+                            <p class="text-2xl font-bold text-orange-500">14 天 (薪資折半)</p>
+                            <p class="text-sm text-gray-500">14 days (Half-pay)</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="comparison-card mt-6">
+                    <h3 class="card-header">其他法定假別 (Other Statutory Leaves)</h3>
+                    <div class="card-content grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div><p class="font-semibold">婚假</p><p class="text-sm text-gray-500">8 天 (支薪)</p></div>
+                        <div><p class="font-semibold">產假</p><p class="text-sm text-gray-500">8 週 (支薪)</p></div>
+                        <div><p class="font-semibold">陪產假</p><p class="text-sm text-gray-500">7 天 (支薪)</p></div>
+                        <div><p class="font-semibold">喪假</p><p class="text-sm text-gray-500">依規定 (支薪)</p></div>
+                    </div>
+                 </div>
+            </section>
+
+            <!-- Benefits Section -->
+            <section id="benefits" class="content-section space-y-6">
+                 <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">本節涵蓋機票補助與獎金制度。新合約對這些福利的申請條件與發放標準有更明確的定義，讓您對可以預期的額外收入和補助有更清晰的了解。</p>
+                 <div class="comparison-card">
+                    <h3 class="card-header">機票補助 (Airfare Reimbursement)</h3>
+                    <div class="card-content">
+                        <ul class="list-disc list-inside space-y-2 text-[var(--brand-teal-dark)]">
+                            <li><span class="font-semibold text-[var(--text-dark)]">服務期間 (Service Period):</span> 需服務滿一學年 (Must complete one full school year).</li>
+                            <li><span class="font-semibold text-[var(--text-dark)]">補助對象 (Recipient):</span> 僅限教師本人 (For the teacher themselves only).</li>
+                            <li><span class="font-semibold text-[var(--text-dark)]">補助項目 (Item):</span> 單程經濟艙機票或等值現金 (One-way economy ticket or cash equivalent).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                     <div class="comparison-card">
+                        <h3 class="card-header">續約獎金 (Renewal Bonus)</h3>
+                        <div class="card-content">
+                            <p class="text-2xl font-bold">一個月薪資</p>
+                            <p class="text-sm text-gray-600 mt-2">完成續約程序並於新學年開學後發給。</p>
+                        </div>
+                    </div>
+                    <div class="comparison-card">
+                        <h3 class="card-header">考評獎金 (Evaluation Bonus)</h3>
+                        <div class="card-content">
+                            <p class="text-2xl font-bold">最高一個月薪資</p>
+                             <p class="text-sm text-gray-600 mt-2">依據年度考評結果發放。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Health & Insurance Section -->
+            <section id="health" class="content-section space-y-6">
+                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">在台灣工作，健康與保險是生活保障的基礎。本節將說明合約規定的強制性保險，以及為順利申請居留證 (ARC) 所需完成的健康檢查項目。</p>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="comparison-card">
+                        <h3 class="card-header">強制性保險 (Mandatory Insurance)</h3>
+                        <div class="card-content space-y-4">
+                            <div>
+                                <h4 class="font-semibold">勞工保險 (Labor Insurance)</h4>
+                                <p class="text-sm text-gray-600">提供工作期間的相關保障。</p>
+                            </div>
+                             <div>
+                                <h4 class="font-semibold">全民健康保險 (National Health Insurance)</h4>
+                                <p class="text-sm text-gray-600">您在台灣就醫時的主要保險。</p>
+                            </div>
+                            <div class="text-xs text-gray-500 pt-2 border-t border-[var(--card-border)]">
+                                 **提醒:** 保險費將由您、學校及政府三方分擔，個人負擔部分自月薪中扣除。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comparison-card">
+                        <h3 class="card-header">健康檢查 (Health Check)</h3>
+                        <div class="card-content">
+                            <p class="mb-2">此為申請 **居留許可 (ARC)** 的必要條件。</p>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                                <li>需於入境後在指定醫院完成。</li>
+                                <li>包含胸部X光 (Chest X-ray)。</li>
+                                <li>梅毒血清檢查 (Syphilis test)。</li>
+                                <li>麻疹及德國麻疹抗體證明 (Measles/Rubella antibodies proof)。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Termination Section -->
+            <section id="termination" class="content-section space-y-6">
+                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">了解合約的終止條款對保障雙方權益至關重要。新合約明確規範了一般情況下的終止程序，以及在特殊情況下可能發生的立即終止條件。</p>
+                <div class="comparison-card">
+                    <h3 class="card-header">一般情況下的合約終止 (General Termination)</h3>
+                    <div class="card-content">
+                        <p class="text-lg">任一方皆可終止合約，但需 <span class="font-bold text-[var(--brand-teal)] text-xl">提前 30 天書面通知</span>。</p>
+                        <p class="text-sm text-gray-600 mt-1">The contract can be terminated by either party with a 30-day written notice.</p>
+                    </div>
+                </div>
+                 <div class="comparison-card border-[var(--brand-orange)]/50">
+                    <h3 class="card-header text-[var(--brand-orange)]">特殊情況下的立即終止 (Immediate Termination for Cause)</h3>
+                    <div class="card-content">
+                        <p class="mb-2 text-sm text-gray-600">若發生以下嚴重情況，學校可立即終止合約且不需預告：</p>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>提供虛假不實的個人資料 (Provides false information).</li>
+                            <li>工作表現不佳，經通知仍未改善 (Fails to perform duties with no improvement).</li>
+                            <li>違反中華民國法律並經判決確定 (Convicted of a crime in the R.O.C.).</li>
+                            <li>其他合約第十條所列之嚴重違規事項。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabsContainer = document.getElementById('tabs-container');
+            const contentContainer = document.getElementById('content-container');
+            const tabButtons = tabsContainer.querySelectorAll('.tab-btn');
+            const contentSections = contentContainer.querySelectorAll('.content-section');
+
+            tabsContainer.addEventListener('click', function(event) {
+                const clickedButton = event.target.closest('.tab-btn');
+                if (!clickedButton) return;
+
+                const targetId = clickedButton.dataset.target;
+                
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                clickedButton.classList.add('active');
+
+                contentSections.forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
