@@ -85,7 +85,7 @@
             <div id="tabs-container" class="flex items-center justify-center">
                 <button data-target="salary" class="tab-btn active flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">薪資 (Salary & Payday)</button>
                 <button data-target="leave" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">假別 (Leave Policy)</button>
-                <button data-target="benefits" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">福利 (Benefits)</button>
+                <button data-target="benefits" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">福利 & 補助 (Benefits & Allowances)</button>
                 <button data-target="health" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">健檢與保險 (Health)</button>
                 <button data-target="termination" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">合約條款 (Terms)</button>
             </div>
@@ -175,18 +175,53 @@
 
             <!-- Benefits Section -->
             <section id="benefits" class="content-section space-y-6">
-                 <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">本節涵蓋機票補助與獎金制度。新合約對這些福利的申請條件與發放標準有更明確的定義，讓您對可以預期的額外收入和補助有更清晰的了解。</p>
-                 <div class="comparison-card">
-                    <h3 class="card-header">機票補助 (Airfare Reimbursement)</h3>
-                    <div class="card-content">
-                        <ul class="list-disc list-inside space-y-2 text-[var(--brand-teal-dark)]">
-                            <li><span class="font-semibold text-[var(--text-dark)]">服務期間 (Service Period):</span> 需服務滿一學年 (Must complete one full school year).</li>
-                            <li><span class="font-semibold text-[var(--text-dark)]">補助對象 (Recipient):</span> 僅限教師本人 (For the teacher themselves only).</li>
-                            <li><span class="font-semibold text-[var(--text-dark)]">補助項目 (Item):</span> 單程經濟艙機票或等值現金 (One-way economy ticket or cash equivalent).</li>
-                        </ul>
+                 <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">本節涵蓋各項補助、津貼與獎金。新合約對這些福利的申請條件與發放標準有更明確的定義，讓您對可以預期的額外收入和補助有更清晰的了解。</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="comparison-card md:col-span-2">
+                        <h3 class="card-header">租屋補助 (Housing Subsidy)</h3>
+                        <div class="card-content grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                            <div>
+                                <p class="text-2xl font-bold highlight-teal">NT$5,000</p>
+                                <p class="text-sm text-gray-500">/月 (單身者)<br>/month (Single)</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold highlight-teal">NT$10,000</p>
+                                <p class="text-sm text-gray-500">/月 (有配偶或家庭眷屬)<br>/month (With spouse/family)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comparison-card md:col-span-2">
+                        <h3 class="card-header">生活用品補助 (Living Necessities Allowance)</h3>
+                        <div class="card-content">
+                            <p class="text-2xl font-bold text-center">最高 NT$9,000 / 學年</p>
+                            <ul class="list-disc list-inside space-y-2 mt-3 text-sm text-gray-600">
+                               <li><span class="font-semibold">新聘教師：</span>由校方協助購置所需用品。</li>
+                               <li><span class="font-semibold">續聘教師：</span>由校方依實際需求協助購置。</li>
+                               <li><span class="font-semibold text-orange-600">注意：</span>所購置的「非消耗品」將列為學校財產，並於合約終止時返還。</li>
+                            </ul>
+                            <p class="text-xs text-gray-500 mt-2">Reimbursement limit of NT$9,000 per academic year for necessities. Non-consumable items are considered school property and must be returned upon contract termination.</p>
+                        </div>
+                    </div>
+                     <div class="comparison-card md:col-span-2">
+                        <h3 class="card-header">教師本人機票補助 (Teacher's Airfare)</h3>
+                        <div class="card-content">
+                           <p class="text-lg font-semibold">單程經濟艙機票</p>
+                           <p class="text-sm text-gray-600 mt-2">服務滿一學年後補助。<br>Reimbursed after one full school year of service.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="grid md:grid-cols-2 gap-6">
+                 <div class="comparison-card mt-6">
+                    <h3 class="card-header">親屬機票補助 (Family Airfare Reimbursement)</h3>
+                    <div class="card-content">
+                        <p class="text-2xl font-bold">最高 NT$40,000</p>
+                        <ul class="list-disc list-inside space-y-2 mt-2 text-sm text-gray-600">
+                           <li>補助對象：配偶或直系親屬一人之**來回**經濟艙機票。</li>
+                           <li>申請條件：需服務滿一學年**且續聘**。</li>
+                        </ul>
+                         <p class="text-xs text-gray-500 mt-2">Subsidy for one round-trip ticket for a spouse or lineal relative, available after completing one year and renewing the contract.</p>
+                    </div>
+                </div>
+                 <div class="grid md:grid-cols-2 gap-6 mt-6">
                      <div class="comparison-card">
                         <h3 class="card-header">續約獎金 (Renewal Bonus)</h3>
                         <div class="card-content">
