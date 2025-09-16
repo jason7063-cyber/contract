@@ -7,8 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Teal & Peach -->
-    <!-- Application Structure Plan: A user-friendly, non-linear SPA using a tabbed navigation interface. Sections are thematic (Salary, Leave, Benefits, etc.). Content is presented in a side-by-side comparison format to clearly highlight changes between the old and new contracts. This structure prioritizes user-directed exploration and quick access to relevant information over a static, linear presentation, which is more effective for digesting complex contractual information. -->
-    <!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation Method -> Interaction -> Justification -> Library/Method. 1. Salary/Leave/Benefits comparison -> Compare terms -> Side-by-side cards/tables -> Click tabs to switch views -> Most direct way to show differences -> HTML/Tailwind/JS. 2. Key figures (days, dates) -> Inform -> Highlighted text & icons -> No interaction -> Draws attention to critical data -> HTML/Unicode. 3. Termination clauses -> Inform/Warn -> Styled lists with icons -> No interaction -> Clearly separates different types of termination -> HTML/Tailwind. No charts are needed as the data is qualitative and comparative, not statistical. Chart.js CDN is included to meet requirements. -->
+    <!-- Application Structure Plan: A user-friendly, non-linear SPA using a tabbed navigation interface. Sections are now structured based on the contract's articles (Employment Period, Duties, Salary, Leave, Termination) for logical consistency and easier reference. Content is presented in a side-by-side comparison format to clearly highlight changes between the 113 and 114 contracts. This structure prioritizes clarity and direct reference to the source documents. -->
+    <!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation Method -> Interaction -> Justification -> Library/Method. 1. Contractual Changes -> Compare terms -> Side-by-side cards with explicit 113 vs 114 labels -> Click tabs to switch article sections -> Most direct way to show differences -> HTML/Tailwind/JS. 2. New Clauses -> Inform -> Single highlighted card for "New" items -> No interaction -> Draws attention to new regulations -> HTML/Unicode. 3. Article References -> Provide proof -> Small text reference on each card -> No interaction -> Builds trust and allows verification -> HTML/Tailwind. No charts are needed. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         :root {
@@ -47,6 +47,8 @@
             box-shadow: 0 4px 12px -1px rgb(0 0 0 / 0.05);
             padding: 1.5rem;
             border: 1px solid var(--card-border);
+            position: relative;
+            padding-bottom: 2.5rem;
         }
         .card-header {
             font-size: 1.125rem;
@@ -61,14 +63,13 @@
         }
         .highlight-orange { color: var(--brand-orange); }
         .highlight-teal { color: var(--brand-teal); }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
+        .contract-ref {
+            position: absolute;
+            bottom: 0.75rem;
+            right: 1.5rem;
+            font-size: 0.75rem;
+            color: #b0b0b0;
+            font-style: italic;
         }
     </style>
 </head>
@@ -83,218 +84,112 @@
 
         <nav class="sticky top-0 bg-white/70 backdrop-blur-lg z-10 shadow-sm rounded-lg mb-8 overflow-x-auto">
             <div id="tabs-container" class="flex items-center justify-center">
-                <button data-target="salary" class="tab-btn active flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">薪資 (Salary & Payday)</button>
-                <button data-target="leave" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">假別 (Leave Policy)</button>
-                <button data-target="benefits" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">福利 & 補助 (Benefits & Allowances)</button>
-                <button data-target="health" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">健檢與保險 (Health)</button>
-                <button data-target="termination" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">合約條款 (Terms)</button>
+                <button data-target="art2" class="tab-btn active flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">聘僱期間 (Art. 2)</button>
+                <button data-target="art3" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">責任義務 (Art. 3)</button>
+                <button data-target="art4" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">薪資福利 (Art. 4)</button>
+                <button data-target="art5" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">休假 (Art. 5)</button>
+                <button data-target="art12_13" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">契約終止 (Art. 12-13)</button>
+                <button data-target="others" class="tab-btn flex-shrink-0 text-center p-4 text-sm md:text-base hover:bg-teal-50/50">其他 & 附錄</button>
             </div>
         </nav>
 
         <main id="content-container">
-            <!-- Salary Section -->
-            <section id="salary" class="content-section active space-y-6">
-                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">此部分說明新學年度的薪資結構與支付日期的變動。最重要的更新是採用了全新的薪資標準表，以及將發薪日提前，請仔細閱讀以了解這些變化對您的影響。</p>
-                <div class="grid md:grid-cols-2 gap-6">
+            <!-- Article 2 Section -->
+            <section id="art2" class="content-section active space-y-6">
+                 <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">本章節說明「聘僱起始起薪日」定義的調整，並新增條款以釐清薪資與福利的計算始點，確保權責分明。<br><span class="text-sm">This section explains the adjustments to the definition of the "start date of employment and salary" and adds new clauses to clarify the starting point for salary and benefit calculations, ensuring clear rights and responsibilities.</span></p>
+                 <div class="grid md:grid-cols-2 gap-6">
                     <div class="comparison-card md:col-span-2">
-                        <h3 class="card-header">薪資級距表 (Salary Scale)</h3>
-                        <div class="card-content grid md:grid-cols-2 gap-6 items-center">
+                        <h3 class="card-header">聘僱起始起薪日 (Start Date of Employment and Salary)</h3>
+                        <div class="card-content grid md:grid-cols-2 gap-6 items-start">
                             <div>
-                                <h4 class="font-semibold text-gray-400 mb-2">舊有規定 (Previous)</h4>
-                                <p>依據先前公告之標準。</p>
+                                <h4 class="font-semibold text-gray-400 mb-2">113學年度 (Previous)</h4>
+                                <p class="text-sm">定義較為繁瑣，包含取得工作許可、完成檢疫措施、在教育部或甲方指定地點完成報到手續當日起算。<br><span class="text-xs text-gray-500">The definition was more cumbersome, including obtaining a work permit, completing quarantine measures, and completing check-in procedures at a location designated by the MOE or Party A.</span></p>
                             </div>
                             <div class="p-4 bg-teal-50/50 rounded-lg">
                                 <h4 class="font-semibold text-[var(--brand-teal-dark)] mb-2">114學年度新合約 (New) ✨</h4>
-                                <p class="font-semibold">薪資級距已全面更新。</p>
-                                <p class="text-sm text-gray-600 mt-1">您的薪資將依據新合約附件一的標準核定 (Your salary will be based on the new scale in Appendix 1)。</p>
+                                <p class="text-sm font-semibold">定義簡化為：<br><span class="text-xs text-gray-500">The definition is simplified to:</span></p>
+                                <p class="text-sm text-gray-600 mt-1">乙方取得教育部核發之工作許可或內政部移民署核發之外僑永久居留證抑或依親居留證，並依甲方規定完成報到手續當日起算。<br><span class="text-xs text-gray-500">The date on which Party B obtains a work permit issued by the MOE, or a permanent or dependent resident certificate issued by the National Immigration Agency, and completes the check-in procedures as required by Party A.</span></p>
                             </div>
                         </div>
+                        <span class="contract-ref">第二條 (Art. 2)</span>
                     </div>
-                     <div class="comparison-card">
-                        <h3 class="card-header">薪資支付日 (Payday)</h3>
+                     <div class="comparison-card md:col-span-2 border-[var(--brand-teal)]/50">
+                        <h3 class="card-header">【新增】薪資福利計算始點 (New Clause: Starting Point for Salary Calculation)</h3>
                         <div class="card-content">
-                            <h4 class="font-semibold text-gray-400 mb-2">舊有規定 (Previous)</h4>
-                            <p class="text-2xl font-bold text-gray-400">次月 <span class="highlight-orange">10日</span> 前</p>
-                            <p class="text-sm text-gray-500">Before the 10th</p>
+                             <h4 class="font-semibold text-[var(--brand-teal-dark)] mb-2">114學年度新合約 (New)</h4>
+                             <p class="text-sm">明確增訂：「聘僱起始起薪日為乙方實際提供勞務之始期；乙方之薪資及相關福利，亦自聘僱起始起薪日起計算，於聘僱起始起薪日前，甲方無義務支付任何薪資、福利或其他報酬」。<br><span class="text-xs text-gray-500">A new clause explicitly states: "The start date of employment and salary shall be the beginning of the actual provision of labor by Party B; Party B's salary and related benefits shall also be calculated from the start date of employment and salary. Before this date, Party A has no obligation to pay any salary, benefits, or other remuneration."</span></p>
                         </div>
-                    </div>
-                    <div class="comparison-card border-[var(--brand-teal)]/50">
-                        <h3 class="card-header">薪資支付日 (Payday)</h3>
-                         <div class="card-content">
-                            <h4 class="font-semibold text-[var(--brand-teal-dark)] mb-2">114學年度新合約 (New) ✅</h4>
-                            <p class="text-2xl font-bold highlight-teal">次月 <span class="highlight-teal">5日</span> 前</p>
-                            <p class="text-sm text-gray-500">Before the 5th</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Leave Section -->
-            <section id="leave" class="content-section space-y-6">
-                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">請假規定是合約中的重要部分。新學年度合約在事假與病假的支薪條件上有所調整。了解這些變更，有助於您規劃個人事務與維護自身權益。</p>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="comparison-card">
-                        <h3 class="card-header">事假 (Personal Leave)</h3>
-                        <div class="card-content">
-                            <p class="text-2xl font-bold">7 天 (支薪)</p>
-                            <p class="text-sm text-gray-500">7 days (Paid)</p>
-                        </div>
-                    </div>
-                    <div class="comparison-card border-[var(--brand-orange)]/50">
-                        <h3 class="card-header text-[var(--brand-orange)]">事假 (Personal Leave) - 更新</h3>
-                        <div class="card-content">
-                            <p class="text-2xl font-bold highlight-orange">5 天 (不支薪)</p>
-                            <p class="text-sm text-gray-500">5 days (Unpaid)</p>
-                        </div>
-                    </div>
-                     <div class="comparison-card">
-                        <h3 class="card-header">病假 (Sick Leave)</h3>
-                        <div class="card-content">
-                            <p class="text-2xl font-bold">14 天 (支薪)</p>
-                            <p class="text-sm text-gray-500">14 days (Paid)</p>
-                        </div>
-                    </div>
-                    <div class="comparison-card border-orange-200">
-                        <h3 class="card-header text-orange-600">病假 (Sick Leave) - 更新</h3>
-                        <div class="card-content">
-                            <p class="text-2xl font-bold text-orange-500">14 天 (薪資折半)</p>
-                            <p class="text-sm text-gray-500">14 days (Half-pay)</p>
-                        </div>
-                    </div>
-                </div>
-                 <div class="comparison-card mt-6">
-                    <h3 class="card-header">其他法定假別 (Other Statutory Leaves)</h3>
-                    <div class="card-content grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        <div><p class="font-semibold">婚假</p><p class="text-sm text-gray-500">8 天 (支薪)</p></div>
-                        <div><p class="font-semibold">產假</p><p class="text-sm text-gray-500">8 週 (支薪)</p></div>
-                        <div><p class="font-semibold">陪產假</p><p class="text-sm text-gray-500">7 天 (支薪)</p></div>
-                        <div><p class="font-semibold">喪假</p><p class="text-sm text-gray-500">依規定 (支薪)</p></div>
-                    </div>
-                 </div>
-            </section>
-
-            <!-- Benefits Section -->
-            <section id="benefits" class="content-section space-y-6">
-                 <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">本節涵蓋各項補助、津貼與獎金。新合約對這些福利的申請條件與發放標準有更明確的定義，讓您對可以預期的額外收入和補助有更清晰的了解。</p>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="comparison-card md:col-span-2">
-                        <h3 class="card-header">租屋補助 (Housing Subsidy)</h3>
-                        <div class="card-content grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-                            <div>
-                                <p class="text-2xl font-bold highlight-teal">NT$5,000</p>
-                                <p class="text-sm text-gray-500">/月 (單身者)<br>/month (Single)</p>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold highlight-teal">NT$10,000</p>
-                                <p class="text-sm text-gray-500">/月 (有配偶或家庭眷屬)<br>/month (With spouse/family)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comparison-card md:col-span-2">
-                        <h3 class="card-header">生活用品補助 (Living Necessities Allowance)</h3>
-                        <div class="card-content">
-                            <p class="text-2xl font-bold text-center">最高 NT$9,000 / 學年</p>
-                            <ul class="list-disc list-inside space-y-2 mt-3 text-sm text-gray-600">
-                               <li><span class="font-semibold">新聘教師：</span>由校方協助購置所需用品。</li>
-                               <li><span class="font-semibold">續聘教師：</span>由校方依實際需求協助購置。</li>
-                               <li><span class="font-semibold text-orange-600">注意：</span>所購置的「非消耗品」將列為學校財產，並於合約終止時返還。</li>
-                            </ul>
-                            <p class="text-xs text-gray-500 mt-2">Reimbursement limit of NT$9,000 per academic year for necessities. Non-consumable items are considered school property and must be returned upon contract termination.</p>
-                        </div>
-                    </div>
-                     <div class="comparison-card md:col-span-2">
-                        <h3 class="card-header">教師本人機票補助 (Teacher's Airfare)</h3>
-                        <div class="card-content">
-                           <p class="text-lg font-semibold">單程經濟艙機票</p>
-                           <p class="text-sm text-gray-600 mt-2">服務滿一學年後補助。<br>Reimbursed after one full school year of service.</p>
-                        </div>
-                    </div>
-                </div>
-                 <div class="comparison-card mt-6">
-                    <h3 class="card-header">親屬機票補助 (Family Airfare Reimbursement)</h3>
-                    <div class="card-content">
-                        <p class="text-2xl font-bold">最高 NT$40,000</p>
-                        <ul class="list-disc list-inside space-y-2 mt-2 text-sm text-gray-600">
-                           <li>補助對象：配偶或直系親屬一人之**來回**經濟艙機票。</li>
-                           <li>申請條件：需服務滿一學年**且續聘**。</li>
-                        </ul>
-                         <p class="text-xs text-gray-500 mt-2">Subsidy for one round-trip ticket for a spouse or lineal relative, available after completing one year and renewing the contract.</p>
-                    </div>
-                </div>
-                 <div class="grid md:grid-cols-2 gap-6 mt-6">
-                     <div class="comparison-card">
-                        <h3 class="card-header">續約獎金 (Renewal Bonus)</h3>
-                        <div class="card-content">
-                            <p class="text-2xl font-bold">一個月薪資</p>
-                            <p class="text-sm text-gray-600 mt-2">完成續約程序並於新學年開學後發給。</p>
-                        </div>
-                    </div>
-                    <div class="comparison-card">
-                        <h3 class="card-header">考評獎金 (Evaluation Bonus)</h3>
-                        <div class="card-content">
-                            <p class="text-2xl font-bold">最高一個月薪資</p>
-                             <p class="text-sm text-gray-600 mt-2">依據年度考評結果發放。</p>
-                        </div>
+                         <span class="contract-ref">第二條 (Art. 2)</span>
                     </div>
                 </div>
             </section>
             
-            <!-- Health & Insurance Section -->
-            <section id="health" class="content-section space-y-6">
-                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">在台灣工作，健康與保險是生活保障的基礎。本節將說明合約規定的強制性保險，以及為順利申請居留證 (ARC) 所需完成的健康檢查項目。</p>
-                 <div class="grid md:grid-cols-2 gap-6">
-                    <div class="comparison-card">
-                        <h3 class="card-header">強制性保險 (Mandatory Insurance)</h3>
-                        <div class="card-content space-y-4">
-                            <div>
-                                <h4 class="font-semibold">勞工保險 (Labor Insurance)</h4>
-                                <p class="text-sm text-gray-600">提供工作期間的相關保障。</p>
-                            </div>
-                             <div>
-                                <h4 class="font-semibold">全民健康保險 (National Health Insurance)</h4>
-                                <p class="text-sm text-gray-600">您在台灣就醫時的主要保險。</p>
-                            </div>
-                            <div class="text-xs text-gray-500 pt-2 border-t border-[var(--card-border)]">
-                                 **提醒:** 保險費將由您、學校及政府三方分擔，個人負擔部分自月薪中扣除。
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comparison-card">
-                        <h3 class="card-header">健康檢查 (Health Check)</h3>
-                        <div class="card-content">
-                            <p class="mb-2">此為申請 **居留許可 (ARC)** 的必要條件。</p>
-                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
-                                <li>需於入境後在指定醫院完成。</li>
-                                <li>包含胸部X光 (Chest X-ray)。</li>
-                                <li>梅毒血清檢查 (Syphilis test)。</li>
-                                <li>麻疹及德國麻疹抗體證明 (Measles/Rubella antibodies proof)。</li>
-                            </ul>
-                        </div>
-                    </div>
+            <!-- Article 3 Section -->
+            <section id="art3" class="content-section space-y-6">
+                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">教師的責任與義務在114學年度合約中有更廣泛且明確的定義，包含工作職責、寒暑假活動內容以及健康檢查的要求皆有調整。<br><span class="text-sm">The responsibilities and obligations of teachers are more broadly and clearly defined in the 114 SY contract, including adjustments to job duties, activities during winter and summer breaks, and health check requirements.</span></p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="comparison-card"><h3 class="card-header">工作職責範圍 (Scope of Work)</h3><div class="card-content"><h4 class="font-semibold text-gray-400 mb-2">113學年度 (Previous)</h4><p class="text-sm">執行「教學相關活動等工作」。<br><span class="text-xs text-gray-500">Perform "teaching-related activities, etc."</span></p></div></div>
+                    <div class="comparison-card"><h3 class="card-header">工作職責範圍 - 更新 (Update)</h3><div class="card-content"><h4 class="font-semibold text-[var(--brand-teal-dark)] mb-2">114學年度 (New)</h4><p class="text-sm">擴大為「教學相關活動、研習課程、<span class="highlight-teal font-semibold">行政、輔導訪視</span>相關作業等工作」。<br><span class="text-xs text-gray-500">Expanded to "teaching-related activities, training courses, <span class="highlight-teal font-semibold">administrative tasks, and counseling visit-related work</span>, etc."</span></p></div><span class="contract-ref">第三條 3.2</span></div>
+                    
+                    <div class="comparison-card"><h3 class="card-header">寒暑假工作內容 (Work during Breaks)</h3><div class="card-content"><h4 class="font-semibold text-gray-400 mb-2">113學年度 (Previous)</h4><p class="text-sm">教學、教學計畫撰寫、學生英語社團活動、教師研習活動等。<br><span class="text-xs text-gray-500">Teaching, writing lesson plans, student English club activities, teacher training activities, etc.</span></p></div></div>
+                    <div class="comparison-card"><h3 class="card-header">寒暑假工作內容 - 更新 (Update)</h3><div class="card-content"><h4 class="font-semibold text-[var(--brand-teal-dark)] mb-2">114學年度 (New)</h4><p class="text-sm">新增甲方可要求乙方「運用非正式課程時間與學生進行英語對話、英語營隊等英語教學相關課程與活動教學事項」。<br><span class="text-xs text-gray-500">Party A may now require Party B to "use non-formal curriculum time to conduct English conversations with students, English camps, and other English teaching-related courses and activities."</span></p><p class="text-xs text-gray-500 mt-2">經甲方同意於課餘時間施行之英語教學相關課程與活動，得計入每週基本授課節數之計算。<br><span class="text-xs text-gray-500">Such activities, with Party A's consent, can be counted towards the weekly basic teaching hours.</span></p></div><span class="contract-ref">第三條 3.3</span></div>
+
+                    <div class="comparison-card md:col-span-2"><h3 class="card-header">健康檢查要求 (Health Check) - 更新 (Update)</h3><div class="card-content grid md:grid-cols-2 gap-6 items-start"><div><h4 class="font-semibold text-gray-400 mb-2">113學年度 (Previous)</h4><p class="text-sm">乙方於契約簽訂後「即至所在地合格設立之醫療機構辦理健康檢查」。<br><span class="text-xs text-gray-500">Party B shall undergo a health check at a qualified local medical institution "after signing the contract".</span></p></div><div class="p-4 bg-teal-50/50 rounded-lg"><h4 class="font-semibold text-[var(--brand-teal-dark)] mb-2">114學年度 (New)</h4><ul class="list-disc list-inside space-y-1 text-sm"><li>健康檢查結果須<span class="font-semibold">「於報到前提供甲方」</span>。<br><span class="text-xs text-gray-500">The health check results must be <span class="font-semibold">"provided to Party A before check-in"</span>.</span></li><li>新增：在職期間之健康檢查當日，得依相關證明文件，每學年至多請 <span class="font-semibold highlight-teal">公假1日</span>。<br><span class="text-xs text-gray-500">New: During the employment period, Party B is entitled to a maximum of <span class="font-semibold highlight-teal">1 day of official leave</span> per school year for health checks, with supporting documents.</span></li></ul></div></div><span class="contract-ref">第三條 3.8</span></div>
                 </div>
             </section>
 
-            <!-- Termination Section -->
-            <section id="termination" class="content-section space-y-6">
-                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">了解合約的終止條款對保障雙方權益至關重要。新合約明確規範了一般情況下的終止程序，以及在特殊情況下可能發生的立即終止條件。</p>
-                <div class="comparison-card">
-                    <h3 class="card-header">一般情況下的合約終止 (General Termination)</h3>
-                    <div class="card-content">
-                        <p class="text-lg">任一方皆可終止合約，但需 <span class="font-bold text-[var(--brand-teal)] text-xl">提前 30 天書面通知</span>。</p>
-                        <p class="text-sm text-gray-600 mt-1">The contract can be terminated by either party with a 30-day written notice.</p>
-                    </div>
+            <!-- Article 4 Section -->
+            <section id="art4" class="content-section space-y-6">
+                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">薪資與福利是本次合約調整的重點。此處詳列了未滿月薪資計算、年資採計新規定、考核機制、各項補助的調整，以及新增的費用補助項目。<br><span class="text-sm">Salary and benefits are the focus of this contract adjustment. This section details new regulations for calculating pro-rata salary, seniority recognition, evaluation mechanisms, adjustments to various subsidies, and newly added reimbursable expenses.</span></p>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="comparison-card md:col-span-2 border-[var(--brand-teal)]/50"><h3 class="card-header">【新增】未滿月薪資計算 & 年資採計 (New: Pro-rata Salary & Seniority Recognition)</h3><div class="card-content"><ul class="list-disc list-inside space-y-2 text-sm"><li><span class="font-semibold">未滿月薪資：</span>新增條款，服務未滿整月者，按當月實際在職日數覈實計支；其每日計發金額，以當月全月薪給除以三十日計算。<br><span class="text-xs text-gray-500">Pro-rata Salary: A new clause states that if service is less than a full month, salary will be calculated based on the actual number of days worked.</span></li><li><span class="font-semibold">年資採計及改敘：</span>新增獨立小節，詳細說明初任、在職期間取得較高學歷、轉換學校時的敘薪原則，以避免年資重複採計。<br><span class="text-xs text-gray-500">Seniority Recognition & Res-sessment: A new subsection details salary principles for initial appointments, for obtaining higher academic qualifications during employment, and for transfers between schools to prevent duplicate seniority calculations.</span></li></ul></div><span class="contract-ref">第四條 4.1.1 & 4.1.2</span></div>
+                    <div class="comparison-card md:col-span-2"><h3 class="card-header">考核獎懲 (Evaluation) - 更新 (Update)</h3><div class="card-content"><ul class="list-disc list-inside space-y-2 text-sm"><li><span class="font-semibold">明確考核項目：</span>調整為應包含「教學專業、行政配合、專業倫理」。<br><span class="text-xs text-gray-500">Clarified Evaluation Criteria: Adjusted to include "teaching professionalism, administrative cooperation, and professional ethics."</span></li><li><span class="font-semibold">新增輔導機制：</span>倘任一項應考核項目未滿70分，或考核評等為乙等以下者，<span class="highlight-orange">應配合所屬地方政府及甲方協助之相關輔導並改善</span>。<br><span class="text-xs text-gray-500">New Support Mechanism: If any item scores below 70 or the rating is Grade B or lower, Party B <span class="highlight-orange">must cooperate with counseling and improvement measures</span> assisted by the local government and Party A.</span></li></ul></div><span class="contract-ref">第四條 4.2</span></div>
+                    <div class="comparison-card"><h3 class="card-header">交通補助 (Transportation Subsidy) - 更新</h3><div class="card-content"><ul class="list-disc list-inside space-y-1 text-sm"><li>直系親屬定義依本國民法相關規定辦理。<br><span class="text-xs text-gray-500">Definition of lineal relatives is based on R.O.C. Civil Code.</span></li><li>回程機票核銷期限明確修改為「聘僱起始起薪日起至該學年結束1個月內（8月31日前）」。<br><span class="text-xs text-gray-500">Reimbursement deadline for return tickets is shortened to "within 1 month after the end of the school year (before Aug 31st)."</span></li></ul></div><span class="contract-ref">第四條 4.3</span></div>
+                    <div class="comparison-card"><h3 class="card-header">租屋補助 (Housing Subsidy) - 更新</h3><div class="card-content"><p class="text-sm">新增條款「倘乙方受聘僱期間之首月或末月租屋期間未足月者，仍以月計，並依前項規定核實補助」。<br><span class="text-xs text-gray-500">New clause ensures that if the rental period in the first or last month of employment is not a full month, the subsidy will still be calculated on a monthly basis.</span></p></div><span class="contract-ref">第四條 4.4</span></div>
+                    <div class="comparison-card"><h3 class="card-header">保險 (Insurance) - 更新</h3><div class="card-content"><p class="text-sm">明確全民健康保險適用對象為「須領有居留證明文件者」，並訂定意外事故保險的生效日期為「聘僱起始起薪日起」。<br><span class="text-xs text-gray-500">Clarifies that NHI applies to those "with a residence certificate," and sets the effective date of accident insurance to the "start date of employment."</span></p></div><span class="contract-ref">第四條 4.5</span></div>
+                    <div class="comparison-card"><h3 class="card-header">其他費用 (Other Fees) - 更新</h3><div class="card-content"><p class="text-sm">新增補助<span class="font-semibold highlight-teal">「文件驗證」</span>等必要文件所生費用。<br><span class="text-xs text-gray-500">Adds reimbursement for expenses incurred from necessary documents such as <span class="font-semibold highlight-teal">"document authentication."</span></span></p></div><span class="contract-ref">第四條 4.7</span></div>
                 </div>
-                 <div class="comparison-card border-[var(--brand-orange)]/50">
-                    <h3 class="card-header text-[var(--brand-orange)]">特殊情況下的立即終止 (Immediate Termination for Cause)</h3>
-                    <div class="card-content">
-                        <p class="mb-2 text-sm text-gray-600">若發生以下嚴重情況，學校可立即終止合約且不需預告：</p>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li>提供虛假不實的個人資料 (Provides false information).</li>
-                            <li>工作表現不佳，經通知仍未改善 (Fails to perform duties with no improvement).</li>
-                            <li>違反中華民國法律並經判決確定 (Convicted of a crime in the R.O.C.).</li>
-                            <li>其他合約第十條所列之嚴重違規事項。</li>
-                        </ul>
+            </section>
+            
+             <!-- Article 5 Section -->
+            <section id="art5" class="content-section space-y-6">
+                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">為更符合法規，114學年度合約調整了部分休假用語，使其與勞動基準法及相關辦法之規範一致。<br><span class="text-sm">To better align with regulations, the 114 SY contract adjusts some leave terminology to be consistent with the Labor Standards Act and related rules.</span></p>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="comparison-card md:col-span-2">
+                        <h3 class="card-header">特別休假 (Special Leave) - 用語調整 (Terminology Adjustment)</h3>
+                        <div class="card-content grid md:grid-cols-2 gap-6 items-center">
+                            <div>
+                                <h4 class="font-semibold text-gray-400 mb-2">113學年度 (Previous)</h4>
+                                <p>每年享有10天<span class="font-semibold text-gray-500">「給薪年假」</span>。<br><span class="text-xs text-gray-500">10 days of <span class="font-semibold text-gray-500">"paid annual leave"</span> per year.</span></p>
+                            </div>
+                            <div class="p-4 bg-teal-50/50 rounded-lg">
+                                <h4 class="font-semibold text-[var(--brand-teal-dark)] mb-2">114學年度 (New)</h4>
+                                <p>調整為每年享有10天<span class="font-semibold highlight-teal">「特別休假」</span>。<br><span class="text-xs text-gray-500">Adjusted to 10 days of <span class="font-semibold highlight-teal">"special leave"</span> per year.</span></p>
+                            </div>
+                        </div>
+                        <span class="contract-ref">第五條 5.1</span>
                     </div>
+                 </div>
+            </section>
+            
+            <!-- Article 12 & 13 Section -->
+            <section id="art12_13" class="content-section space-y-6">
+                <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">本節說明合約終止與違約條款的更新，包含擴大違約認定範圍，以及在特定情況下對教師返國費用的保障。<br><span class="text-sm">This section covers updates to contract termination and breach clauses, including an expanded definition of breach and protections for the teacher's return travel costs in specific situations.</span></p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="comparison-card"><h3 class="card-header">提供不實資料 (Providing False Info) - 更新</h3><div class="card-content"><p class="text-sm">違約認定範圍新增「或<span class="font-semibold highlight-orange">失效資料</span>者，且<span class="font-semibold highlight-orange">情節重大</span>者」。<br><span class="text-xs text-gray-500">The scope of breach is expanded to include "providing <span class="font-semibold highlight-orange">invalid information</span>, where the circumstances are <span class="font-semibold highlight-orange">significant</span>."</span></p></div><span class="contract-ref">第十二條 12.1.5</span></div>
+                    <div class="comparison-card"><h3 class="card-header">違反性別平等法令 - 更新</h3><div class="card-content"><p class="text-sm">違反「性騷擾防治法」的條文編號已自第20條或第25條規定更新為<span class="font-semibold highlight-teal">第25條或第27條</span>。<br><span class="text-xs text-gray-500">The article numbers in the "Sexual Harassment Prevention Act" have been updated from Art. 20/25 to <span class="font-semibold highlight-teal">Art. 25/27</span>.</span></p></div><span class="contract-ref">第十二條 12.1.8</span></div>
+                    <div class="comparison-card md:col-span-2 border-[var(--brand-teal)]/50"><h3 class="card-header">【新增】甲方歸責提前終止契約之保障 (New Protection for Early Termination by Party A)</h3><div class="card-content"><p class="text-sm">新增規定，若因可歸責於甲方之嚴重事由（如嚴重侮辱）導致乙方終止契約，甲方應依第4.3條規定負擔乙方返國機票費用，<span class="font-semibold highlight-teal">「如服務未滿6個月亦適用」</span>。<br><span class="text-xs text-gray-500">A new provision states that if Party B terminates the contract due to serious reasons attributable to Party A (e.g., gross insult), Party A must cover the return airfare as per Art. 4.3, <span class="font-semibold highlight-teal">"even if the service period is less than 6 months."</span></span></p></div><span class="contract-ref">第十三條 13.3</span></div>
+                </div>
+            </section>
+            
+            <!-- Others & Appendix Section -->
+            <section id="others" class="content-section space-y-6">
+                 <p class="text-[var(--text-light)] text-center max-w-3xl mx-auto">其他條款與附錄部分，主要針對續約評估、教學合作及行政配合等方面，提出了更具體的要求與說明。<br><span class="text-sm">This section covers other clauses and appendices, mainly providing more specific requirements for contract renewal assessment, teaching collaboration, and administrative cooperation.</span></p>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="comparison-card"><h3 class="card-header">續約評估 (Contract Renewal) - 更新</h3><div class="card-content"><p class="text-sm">甲方應確認乙方符合資格，並「<span class="font-semibold highlight-teal">參酌</span>」本契約第4.2所規定之考核結果並經地方政府同意後，依新契約條款續辦。<br><span class="text-xs text-gray-500">The renewal condition is changed from "conforming to" the evaluation results to "<span class="font-semibold highlight-teal">with reference to</span>" the evaluation results, giving Party A more flexibility.</span></p></div><span class="contract-ref">第十九條 19.2</span></div>
+                    <div class="comparison-card"><h3 class="card-header">教學準備 (Teaching Preparation) - 更新</h3><div class="card-content"><p class="text-sm">新增要求乙方須與甲方協同教師於每堂課及每學期開始前充分討論及<span class="font-semibold highlight-teal">「共同備課」</span>，確定課程與教材並擬定課程計畫，始得實施。<br><span class="text-xs text-gray-500">A new requirement for teachers to engage in <span class="font-semibold highlight-teal">"co-planning"</span> with co-teachers before each class and semester.</span></p></div><span class="contract-ref">附錄A 2.2</span></div>
+                    <div class="comparison-card md:col-span-2 border-[var(--brand-teal)]/50"><h3 class="card-header">【新增】附錄A：運用非正式課程時間 (New Clause: Use of Non-formal Curriculum Time)</h3><div class="card-content"><p class="text-sm">新增條目「乙方須與甲方共同規劃及運用非正式課程時間，辦理與學生進行英語對話之活動，例如英語口說學習角、英語營隊等英語教學相關活動，以提升學生英文聽說能力」。<br><span class="text-xs text-gray-500">A new item requires Party B to co-plan and use non-formal curriculum time for activities like "English Corners" or "English Camps" to improve students' speaking and listening skills.</span></p></div><span class="contract-ref">附錄A 2.3</span></div>
+                    <div class="comparison-card md:col-span-2"><h3 class="card-header">附錄B：薪資待遇標準表 - 更新 (Update)</h3><div class="card-content"><p class="text-sm">114學年度的薪資待遇標準表，<span class="font-semibold highlight-teal">整體薪資級距有顯著調升</span>。例如，學士學位、未滿1年年資的月薪從113學年度的NT$67,840提高到114學年度的NT$69,880。<br><span class="text-xs text-gray-500">The salary scale for the 114 SY shows a <span class="font-semibold highlight-teal">significant overall increase</span>. For example, the monthly salary for a teacher with a bachelor's degree and less than one year of experience has been raised from NT$67,840 to NT$69,880.</span></p></div><span class="contract-ref">附錄B (Appendix B)</span></div>
                 </div>
             </section>
         </main>
